@@ -36,6 +36,7 @@ defmodule TwitterFeed.Parser do
   defp parse_tweet(tweet_html) do
     user_id = parse_user_id(tweet_html)
     is_retweet = parse_is_retweet(tweet_html)
+    [replies, retweets, likes] = parse_tweet_stats(tweet_html)
 
     %Tweet {
       handle_id: parse_handle_id(is_retweet, user_id, tweet_html),
@@ -46,7 +47,10 @@ defmodule TwitterFeed.Parser do
       timestamp: parse_timestamp(tweet_html),
       text_summary: parse_text(tweet_html) |> truncate(),
       image_url: parse_image(tweet_html),
-      retweet: is_retweet
+      retweet: is_retweet,
+      retweets_number: retweets,
+      replies: replies,
+      likes: likes
     }
   end
 
@@ -152,5 +156,12 @@ defmodule TwitterFeed.Parser do
     else
       text
     end
+  end
+
+  defp parse_tweet_stats(tweet_html) do
+    tweet_html
+    |> Floki.find(".ProfileTweet-actionCount")
+    |> Floki.attribute("data-tweet-stat-count")
+    |> Enum.map(fn stat -> String.to_integer(stat) end)
   end
 end

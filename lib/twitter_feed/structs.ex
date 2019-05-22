@@ -30,8 +30,14 @@ defmodule TwitterFeed.Tweet do
   - text_summary: a summary of the tweet text.
   - image_url: the url of any image contained in the tweet.
   - retweet: true | false indicator of whether the tweet is a retweet.
+  - retweet_number: number of retweets done on the tweet.
+  - likes: number of likes received by the tweet.
+  - replies: number of replies received by the tweet.
   """
   defstruct [
+    retweets_number: 0,
+    likes: 0,
+    replies: 0,
     handle_id: "",
     tweet_id: "",
     user_id: "",
