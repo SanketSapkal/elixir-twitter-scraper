@@ -1,7 +1,7 @@
 defmodule TwitterFeed.Scraper do
   @moduledoc false
 
-  @twitter_api Application.get_env(:twitter_feed, :twitter_api)
+  @twitter_api TwitterFeed.TwitterApi.HttpClient
 
   alias TwitterFeed.Parser
 
